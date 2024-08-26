@@ -1,0 +1,1 @@
+This Project is about creating a record for small scale farmers especially for crop production farmers.
