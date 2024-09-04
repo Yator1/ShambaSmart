@@ -32,7 +32,7 @@ def signup():
             flash('Password must be at least 7 characters.', category='error')
         else:
             hashed_password = generate_password_hash(password1)
-            new_farmer = Farmer(fisrt_name=firstName, last_name=lastName, email=email, username=username, password=hashed_password)
+            new_farmer = Farmer(first_name=firstName, last_name=lastName, email=email, username=username, password=hashed_password)
             db.session.add(new_farmer)
             db.session.commit()
             flash('Signup successful! Please log in.', category='success')
@@ -40,7 +40,7 @@ def signup():
             # login the new farmer
             login_user(new_farmer, remember=True)
             flash('Account created successfully', category='success')
-            return redirect(url_for('auth.login'))
+            return redirect(url_for('views.home'))
     return render_template('signup.html', user=current_user)
 
 @auth.route('/logout')
@@ -59,9 +59,9 @@ def login():
         farmer = Farmer.query.filter_by(username=username).first()
         
         if farmer and check_password_hash(farmer.password, password):
-            session['farmer_id'] = farmer.id
+            login_user(farmer)
             flash('Login successful!', category='success')
-            return redirect(url_for('views.dashboard'))
+            return redirect(url_for('views.home'))
         else:
             flash('Login failed. Check your username and password.', category='error')
     return render_template('login.html', user=current_user)

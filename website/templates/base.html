@@ -8,9 +8,10 @@
 </head>
 <body>
     <div class="container">
-        <header>
-            <h1>{{ title }}</h1>
-        </header>
+        <div class="sidebar">
+            {% block sidebar %}
+            {% endblock %}
+        </div>     
         <div class="content">
             {% with messages = get_flashed_messages(with_categories=true) %}
                 {% if messages %}

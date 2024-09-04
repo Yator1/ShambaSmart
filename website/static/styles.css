@@ -1,16 +1,19 @@
 body {
     font-family: Arial, sans-serif;
-    background-image: url('/path/to/crop-background.jpg'); /* Add your crop production theme background */
+    background-image: url('https://www.pexels.com/photo/assorted-vegetable-store-displays-2252584/'); /* Add your crop production theme background */
     background-size: cover;
     color: #333;
 }
 
 .container {
-    width: 100%;
-    max-width: 600px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 900px;   
+    height: 700px;
     margin: 0 auto;
     padding: 20px;
-    background-color: rgba(255, 255, 255, 0.8);
+    background-color: rgba(4, 180, 7, 0.8);
     border-radius: 10px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
@@ -22,7 +25,11 @@ header h1 {
 }
 
 .form-container {
-    margin-top: 30px;
+    padding: 20px;
+    width: 500px;
+    background-color: beige;
+    border-radius: 10px;
+    text-align: left;
 }
 
 .form-container h2 {
