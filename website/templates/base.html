@@ -7,11 +7,7 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
 </head>
 <body>
-    <div class="container">
-        <div class="sidebar">
-            {% block sidebar %}
-            {% endblock %}
-        </div>     
+    <div class="container">     
         <div class="content">
             {% with messages = get_flashed_messages(with_categories=true) %}
                 {% if messages %}

@@ -6,6 +6,37 @@ from flask_login import login_user, login_required, logout_user, current_user
 
 auth = Blueprint('auth', __name__)
 
+@auth.route('/login', methods=['GET', 'POST'])
+def login():
+    if request.method == 'POST':
+        username = request.form.get('username')
+        password = request.form.get('password')
+
+        farmer = Farmer.query.filter_by(username=username).first()
+        
+        if farmer:
+            if check_password_hash(farmer.password, password):
+                flash('Login successful!', category='success')
+                login_user(farmer, remember=True)      
+
+                # checking if the farmer has any associated farms
+                if not farmer.farms:
+                    # if no farm exists, redirect to add farm page
+                    return redirect(url_for('views.add_farm'))
+                # else redirect to home page         
+                return redirect(url_for('views.home'))
+            else:
+                flash('Incorrect password, try again', category='error')
+        else:
+            flash('Login failed. Check your username.', category='error')
+    return render_template('login.html', farmer=current_user)
+
+@auth.route('/logout')
+@login_required
+def logout():
+    logout_user()
+    return redirect(url_for('auth.login'))
+
 @auth.route('/signup', methods=['GET', 'POST'])
 def signup():
     if request.method == 'POST':
@@ -42,26 +73,3 @@ def signup():
             flash('Account created successfully', category='success')
             return redirect(url_for('views.home'))
     return render_template('signup.html', user=current_user)
-
-@auth.route('/logout')
-@login_required
-def logout():
-    logout_user()
-    return redirect(url_for('auth.login'))
-
-
-@auth.route('/login', methods=['GET', 'POST'])
-def login():
-    if request.method == 'POST':
-        username = request.form.get('username')
-        password = request.form.get('password')
-
-        farmer = Farmer.query.filter_by(username=username).first()
-        
-        if farmer and check_password_hash(farmer.password, password):
-            login_user(farmer)
-            flash('Login successful!', category='success')
-            return redirect(url_for('views.home'))
-        else:
-            flash('Login failed. Check your username and password.', category='error')
-    return render_template('login.html', user=current_user)

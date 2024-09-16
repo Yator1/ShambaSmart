@@ -2,6 +2,15 @@ from . import db
 from flask_login import UserMixin
 from sqlalchemy.sql import func
 
+class Farm(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(150), nullable=False)
+    country = db.Column(db.String(100), nullable=False)
+    address = db.Column(db.String(200), nullable=False)
+    size = db.Column(db.Float, nullable=False)
+    farmer_id = db.Column(db.Integer, db.ForeignKey('farmer.id'), nullable=False)
+
+    farmer = db.relationship('Farmer', backref='farms')
 class Farmer(db.Model, UserMixin):
     id = db.Column(db.Integer, primary_key=True)
     first_name = db.Column(db.String(50))

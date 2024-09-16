@@ -1,28 +1,6 @@
 {% extends "base.html" %}
-
-{% block sidebar %}
-<div class="logo">
-        <img src="../static/ShambaSmart logo.png" alt="Logo">
-</div>
-<div class="user-info">
-        <p>Logged in as: {{ current_user.username }}</p>
-</div>
-<div class="nav">
-        <ul>
-            <li><a href="#">Home</a></li>
-            <li><a href="#">Crops</a></li>
-        </ul>
-</div>
-{% endblock %}
-
 {% block content %}
-<div class="cards-container">
-    {% for crop in crops %}
-        <div class="card">
-            <h3>Cabbage</h3>
-            <p>Date Planted: 9/4/2024</p>
-            <p>Farm Size: 0.5 acres</p>
-        </div>
-    {% endfor %}
+<div>
+    <h1>This is the home page</h1>
 </div>
 {% endblock %}
