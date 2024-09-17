@@ -71,5 +71,5 @@ def signup():
             # login the new farmer
             login_user(new_farmer, remember=True)
             flash('Account created successfully', category='success')
-            return redirect(url_for('views.home'))
+            return redirect(url_for('views.add_farm'))
     return render_template('signup.html', user=current_user)

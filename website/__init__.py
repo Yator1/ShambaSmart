@@ -2,6 +2,7 @@ from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 from os import path
 from flask_login import LoginManager
+from flask_migrate import Migrate
 
 db = SQLAlchemy()
 DB_NAME = "crop_production.db"
@@ -9,9 +10,11 @@ DB_NAME = "crop_production.db"
 def create_app():
     app = Flask(__name__)
     app.config['SECRET_KEY'] = 'your_secret_key'
-    app.config['SQLALCHEMY_DATABASE_URI'] = f'sqlite:///{DB_NAME}'
+    # app.config['SQLALCHEMY_DATABASE_URI'] = f'sqlite:///{DB_NAME}'
+    app.config['SQLALCHEMY_DATABASE_URI'] = f'sqlite:///{path.join(app.instance_path, DB_NAME)}'
 
     db.init_app(app)
+    migrate = Migrate(app, db)
 
     from .views import views
     from .auth import auth
@@ -21,8 +24,8 @@ def create_app():
 
     from .models import Farmer
 
-    with app.app_context():
-        create_database(app)
+    # with app.app_context():
+    #     create_database(app)
 
     # user authentication and session management
     login_manager = LoginManager()
@@ -34,7 +37,7 @@ def create_app():
         return Farmer.query.get(int(id))
     return app
 
-def create_database(app):
-    if not path.exists('website/' + DB_NAME):
-        db.create_all()
-        print('database created')
+# def create_database(app):
+#     if not path.exists('website/' + DB_NAME):
+#         db.create_all()
+#         print('database created')

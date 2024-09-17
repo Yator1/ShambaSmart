@@ -1,6 +1,29 @@
 {% extends "base.html" %}
 {% block content %}
 <div>
-    <h1>This is the home page</h1>
+    <h1>Welcome to {{ current_user.first_name }}'s Farms</h1>
+    <!-- Display current farm info -->
+    {% if farm %}
+    <div class="farm-info">
+        <h3>Farm Name: {{ farm.name }}</h3>
+        <p>Farm Size: {{ farm.size }} {{ farm.size_unit }}</p>
+
+        <!-- List the crops in the farm -->
+        <h4>Crops in the Farm:</h4>
+        <ul>
+            {% for crop in crops %}
+            <li>{{ crop.name }}</li>
+            {% endfor %}
+        </ul>
+    </div>
+    {% else %}
+    <p>No farm information available. Please add a farm.</p>
+    {% endif %}
+</div>
+
+<div>
+    <a href="{{ url_for('views.add_farm') }}">
+        <button>Add farm</button>
+    </a>
 </div>
 {% endblock %}

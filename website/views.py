@@ -24,6 +24,7 @@ def add_farm():
 @views.route('/', methods=['GET', 'POST'])
 @login_required
 def home():
+    
     return render_template("home.html")
 
 @views.route('/crop_record')
