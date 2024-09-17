@@ -7,6 +7,7 @@
     <div class="farm-info">
         <h3>Farm Name: {{ farm.name }}</h3>
         <p>Farm Size: {{ farm.size }} {{ farm.size_unit }}</p>
+        <p>Location: {{ farm.address }}</p>
 
         <!-- List the crops in the farm -->
         <h4>Crops in the Farm:</h4>
@@ -15,6 +16,9 @@
             <li>{{ crop.name }}</li>
             {% endfor %}
         </ul>
+        <a href="{{ url_for('views.edit_farm', farm_id=farm.id) }}">
+            <button>Edit farm</button>
+        </a>
     </div>
     {% else %}
     <p>No farm information available. Please add a farm.</p>

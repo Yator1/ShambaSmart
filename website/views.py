@@ -24,8 +24,8 @@ def add_farm():
 @views.route('/', methods=['GET', 'POST'])
 @login_required
 def home():
-    
-    return render_template("home.html")
+    farm = Farm.query.filter_by(farmer_id=current_user.id).first()
+    return render_template("home.html", farm=farm)
 
 @views.route('/crop_record')
 def crop_records():
@@ -34,3 +34,21 @@ def crop_records():
 @views.route('/view_crop')
 def view_crop():
     return render_template('view_crop.html')
+
+# edit information 
+@views.route('/edit_farm/<int:farm_id>', methods=['GET', 'POST'])
+@login_required
+def edit_farm(farm_id):
+    farm = Farm.query.get_or_404(farm_id)
+    
+    if request.method == 'POST':
+        farm.name = request.form.get('name')
+        farm.country = request.form.get('country')
+        farm.address = request.form.get('address')
+        farm.size = request.form.get('size')
+
+        db.session.commit()
+        flash('Farm information updated successfully', category='success')
+        return redirect(url_for('views.home'))
+
+    return render_template('edit_farm.html', farm=farm)
