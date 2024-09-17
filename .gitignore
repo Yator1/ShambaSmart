@@ -1,2 +1,3 @@
 # Virtual environment
 .venv
+app.log

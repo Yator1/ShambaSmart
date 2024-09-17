@@ -62,6 +62,9 @@ def add_crop(farm_id):
     farm = Farm.query.get_or_404(farm_id)
 
     if form.validate_on_submit():
+        # Log form data
+        current_app.logger.info(f'Adding crop with name: {form.name.data}, variety: {form.variety.data}')
+
         # Saving the crop info
         crop = Crop(
             name=form.name.data,
@@ -87,17 +90,17 @@ def add_crop(farm_id):
             filename = secure_filename(form.image.data.filename)
             image_path = os.path.join(current_app.config['UPLOAD_FOLDER'], filename)
             form.image.data.save(image_path)
-            crop.image= filename
-
-            # db.session.add(crop)
+            crop.image = filename
             db.session.commit()
         else:
             flash('Invalid file type. Only images are allowed.', 'error')
+            current_app.logger.warning('Invalid file type for image upload.')
 
         flash('Crop added successfully', 'success')
         return redirect(url_for('views.home', farm_id=farm_id))
 
     return render_template('add_crop.html', form=form, farm=farm)
+
 
 @views.route('/uploads/<filename>')
 def uploaded_file(filename):

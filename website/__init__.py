@@ -4,6 +4,8 @@ from os import path
 from flask_login import LoginManager
 from flask_migrate import Migrate
 import os
+import logging
+from logging.handlers import RotatingFileHandler
 
 db = SQLAlchemy()
 DB_NAME = "crop_production.db"
@@ -19,6 +21,15 @@ def create_app():
 
     if not os.path.exists(app.config['UPLOAD_FOLDER']):
         os.makedirs(app.config['UPLOAD_FOLDER'], exist_ok=True)
+
+    # Set up logging
+    if not app.debug:
+        # Configure log file
+        handler = RotatingFileHandler('app.log', maxBytes=10000, backupCount=1)
+        handler.setLevel(logging.INFO)
+        formatter = logging.Formatter('%(asctime)s - %(levelname)s - %(message)s')
+        handler.setFormatter(formatter)
+        app.logger.addHandler(handler)    
 
     db.init_app(app)
     migrate = Migrate(app, db)
