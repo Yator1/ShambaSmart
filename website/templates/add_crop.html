@@ -1,0 +1,49 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h2>Add Crop to {{ farm.name }}</h2>
+
+<form method="POST" enctype="multipart/form-data">
+    {{ form.hidden_tag() }}
+
+    <div>
+        <label for="name">Crop Name</label>
+        {{ form.name }}
+    </div>
+
+    <div>
+        <label for="variety">Variety</label>
+        {{ form.variety }}
+    </div>
+
+    <div>
+        <label for="date_planted">Date Planted</label>
+        {{ form.date_planted }}
+    </div>
+
+    <div>
+        <label for="quantity">Quantity</label>
+        {{ form.quantity }}
+    </div>
+
+    <div>
+        <label for="stage_name">Stage</label>
+        {{ form.stage_name }}
+    </div>
+
+    <div>
+        <label for="date_recorded">Stage Date</label>
+        {{ form.date_recorded }}
+    </div>
+
+    <div>
+        <label for="image">Upload Plant Image</label>
+        {{ form.image }}
+    </div>
+
+    <div>
+        <button type="submit">Add Crop</button>
+    </div>
+</form>
+
+{% endblock %}

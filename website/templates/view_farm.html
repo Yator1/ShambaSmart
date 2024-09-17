@@ -1,0 +1,48 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h2>{{ farm.name }} - Crops</h2>
+
+<table border="1">
+    <thead>
+        <tr>
+            <th>Crop Name</th>
+            <th>Variety</th>
+            <th>Date Planted</th>
+            <th>Quantity</th>
+            <th>Stage</th>
+            <th>Image</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for crop in farm.crops %}
+        <tr>
+            <td>{{ crop.crop_name }}</td>
+            <td>{{ crop.variety }}</td>
+            <td>{{ crop.date_planted }}</td>
+            <td>{{ crop.quantity }}</td>
+            <td>
+                {% for stage in crop.stages %}
+                {{ stage.stage_name }} ({{ stage.date_recorded }})
+                <br>
+                {% endfor %}
+            </td>
+            <td>
+                {% if crop.image %}
+                <img src="{{ url_for('views.uploaded_file', filename=crop.image) }}" alt="Crop Image" width="100">
+                {% else %}
+                No Image
+                {% endif %}
+            </td>
+            <td>
+                <form action="{{ url_for('views.delete_crop', crop_id=crop.id) }}" method="post">
+                    <button type="submit" class="btn btn-danger">Delete</button>
+                </form>
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+<a href="{{ url_for('add_crop', farm_id=farm.id) }}">Add New Crop</a>
+{% endblock %}

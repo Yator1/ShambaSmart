@@ -3,6 +3,7 @@ from flask_sqlalchemy import SQLAlchemy
 from os import path
 from flask_login import LoginManager
 from flask_migrate import Migrate
+import os
 
 db = SQLAlchemy()
 DB_NAME = "crop_production.db"
@@ -12,6 +13,12 @@ def create_app():
     app.config['SECRET_KEY'] = 'your_secret_key'
     # app.config['SQLALCHEMY_DATABASE_URI'] = f'sqlite:///{DB_NAME}'
     app.config['SQLALCHEMY_DATABASE_URI'] = f'sqlite:///{path.join(app.instance_path, DB_NAME)}'
+
+    app.config['UPLOAD_FOLDER'] = path.join(app.instance_path, 'uploads') # uploads will be in the instance folder
+    app.config['MAX_CONTENT_LENGTH'] = 16 * 1024 * 1024 
+
+    if not os.path.exists(app.config['UPLOAD_FOLDER']):
+        os.makedirs(app.config['UPLOAD_FOLDER'], exist_ok=True)
 
     db.init_app(app)
     migrate = Migrate(app, db)

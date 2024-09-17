@@ -23,27 +23,34 @@ class Farmer(db.Model, UserMixin):
 
     # farmer has many farms
     farms = db.relationship('Farm', backref='farmer', lazy=True)
-
     crops = db.relationship('Crop', back_populates='farmer', lazy=True)
 
 class Crop(db.Model):
     crop_id = db.Column(db.Integer, primary_key=True)
+    farm_id = db.Column(db.Integer, db.ForeignKey('farm.id'), nullable=False) # linking it to farm
     crop_name = db.Column(db.String(80), nullable=False)
+    variety = db.Column(db.String(100), nullable=False)
     quantity = db.Column(db.Integer, nullable=False)
     date_planted = db.Column(db.Date, default=func.now())
-    harvest_date = db.Column(db.Date, default=func.now())
-    
-    # linking crops to farm it 
-    farm_id = db.Column(db.Integer, db.ForeignKey('farm.id'), nullable=False)
+    quantity_harvested = db.Column(db.Float, nullable=True)  # Quantity of harvest
+    stages = db.relationship('PlantStage', backref='crop', lazy=True)
+    image = db.Column(db.String(200), nullable=True)  # For storing the image path
+    farmer_id = db.Column(db.Integer, db.ForeignKey('farmer.id'), nullable=False)
+    farmer = db.relationship('Farmer', back_populates='crops')
+
     # seeds = db.relationship('Seed', backref='crop', lazy=True)
     # agrochemicals = db.relationship('Agrochemical', backref='crop', lazy=True)
     # fertilizers = db.relationship('Fertilizer', backref='crop', lazy=True)
-
     # Foreign key to the Farmer table
-    farmer_id = db.Column(db.Integer, db.ForeignKey('farmer.id'), nullable=False)
-    
+       
     # Define relationship to Farmer
-    farmer = db.relationship('Farmer', back_populates='crops')
+    
+
+class PlantStage(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    crop_id = db.Column(db.Integer, db.ForeignKey('crop.crop_id'), nullable=False)
+    stage_name = db.Column(db.String(50), nullable=False)  # e.g., Planting, Transplanting
+    date_recorded = db.Column(db.Date, default=func.now())  # Date of the stage
 
 # class Seed(db.Model):
 #     seed_id = db.Column(db.Integer, primary_key=True)
