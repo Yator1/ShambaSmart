@@ -8,9 +8,9 @@ class Farm(db.Model):
     country = db.Column(db.String(100), nullable=False)
     address = db.Column(db.String(200), nullable=False)
     size = db.Column(db.Float, nullable=False)
+    size_unit = db.Column(db.String(50), nullable=False, default='acres')
 
-    farmer_id = db.Column(db.Integer, db.ForeignKey('farmer.id'), nullable=False)
-    
+    farmer_id = db.Column(db.Integer, db.ForeignKey('farmer.id'), nullable=False)    
     # Relate the crops with each farm
     crops = db.relationship('Crop', backref='farm', lazy=True)
 class Farmer(db.Model, UserMixin):

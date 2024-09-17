@@ -12,8 +12,9 @@ def add_farm():
         country = request.form.get('country')
         address = request.form.get('address')
         size = request.form.get('size')
+        size_unit = request.form.get('size_unit')
 
-        new_farm = Farm(name=farm_name, country=country, address=address, size=size, farmer_id=current_user.id)
+        new_farm = Farm(name=farm_name, country=country, address=address, size=size, size_unit=size_unit, farmer_id=current_user.id)
         db.session.add(new_farm)
         db.session.commit()
         flash('Farm added successfully', category='success')
@@ -46,6 +47,7 @@ def edit_farm(farm_id):
         farm.country = request.form.get('country')
         farm.address = request.form.get('address')
         farm.size = request.form.get('size')
+        farm.size_unit = request.form.get('size_unit')
 
         db.session.commit()
         flash('Farm information updated successfully', category='success')

@@ -16,9 +16,8 @@
         <label for="size">Total Farm Size:</label>
         <input type="number" name="size" step="0.01" required>
         <select name="size_unit" required>
-            <option value="select">Choose one</option>
-            <option value="acres">Acres</option>
-            <option value="hectares">Hectares</option>
+            <option value="acres" {% if farm.size_unit=='acres' %}selected{% endif %}>Acres</option>
+            <option value="hectares" {% if farm.size_unit=='hectares' %}selected{% endif %}>Hectares</option>
         </select>
 
         <button type="submit">Add Farm</button>
