@@ -1,0 +1,146 @@
+2024-09-19 17:56:04,640 - ERROR - Exception on / [GET]
+Traceback (most recent call last):
+  File "g:\TITO\VS_CODE\ShambaSmart\.venv\Lib\site-packages\sqlalchemy\engine\base.py", line 1967, in _exec_single_context
+    self.dialect.do_execute(
+  File "g:\TITO\VS_CODE\ShambaSmart\.venv\Lib\site-packages\sqlalchemy\engine\default.py", line 941, in do_execute
+    cursor.execute(statement, parameters)
+sqlite3.OperationalError: no such column: crop.quantity_unit
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "g:\TITO\VS_CODE\ShambaSmart\.venv\Lib\site-packages\flask\app.py", line 1473, in wsgi_app
+    response = self.full_dispatch_request()
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "g:\TITO\VS_CODE\ShambaSmart\.venv\Lib\site-packages\flask\app.py", line 882, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "g:\TITO\VS_CODE\ShambaSmart\.venv\Lib\site-packages\flask\app.py", line 880, in full_dispatch_request
+    rv = self.dispatch_request()
+         ^^^^^^^^^^^^^^^^^^^^^^^
+  File "g:\TITO\VS_CODE\ShambaSmart\.venv\Lib\site-packages\flask\app.py", line 865, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)  # type: ignore[no-any-return]
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "g:\TITO\VS_CODE\ShambaSmart\.venv\Lib\site-packages\flask_login\utils.py", line 290, in decorated_view
+    return current_app.ensure_sync(func)(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "G:\TITO\VS_CODE\ShambaSmart\website\views.py", line 18, in home
+    crops = Crop.query.filter_by(farm_id=farm.id).all()
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "g:\TITO\VS_CODE\ShambaSmart\.venv\Lib\site-packages\sqlalchemy\orm\query.py", line 2673, in all
+    return self._iter().all()  # type: ignore
+           ^^^^^^^^^^^^
+  File "g:\TITO\VS_CODE\ShambaSmart\.venv\Lib\site-packages\sqlalchemy\orm\query.py", line 2827, in _iter
+    result: Union[ScalarResult[_T], Result[_T]] = self.session.execute(
+                                                  ^^^^^^^^^^^^^^^^^^^^^
+  File "g:\TITO\VS_CODE\ShambaSmart\.venv\Lib\site-packages\sqlalchemy\orm\session.py", line 2362, in execute
+    return self._execute_internal(
+           ^^^^^^^^^^^^^^^^^^^^^^^
+  File "g:\TITO\VS_CODE\ShambaSmart\.venv\Lib\site-packages\sqlalchemy\orm\session.py", line 2247, in _execute_internal
+    result: Result[Any] = compile_state_cls.orm_execute_statement(
+                          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "g:\TITO\VS_CODE\ShambaSmart\.venv\Lib\site-packages\sqlalchemy\orm\context.py", line 305, in orm_execute_statement
+    result = conn.execute(
+             ^^^^^^^^^^^^^
+  File "g:\TITO\VS_CODE\ShambaSmart\.venv\Lib\site-packages\sqlalchemy\engine\base.py", line 1418, in execute
+    return meth(
+           ^^^^^
+  File "g:\TITO\VS_CODE\ShambaSmart\.venv\Lib\site-packages\sqlalchemy\sql\elements.py", line 515, in _execute_on_connection
+    return connection._execute_clauseelement(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "g:\TITO\VS_CODE\ShambaSmart\.venv\Lib\site-packages\sqlalchemy\engine\base.py", line 1640, in _execute_clauseelement
+    ret = self._execute_context(
+          ^^^^^^^^^^^^^^^^^^^^^^
+  File "g:\TITO\VS_CODE\ShambaSmart\.venv\Lib\site-packages\sqlalchemy\engine\base.py", line 1846, in _execute_context
+    return self._exec_single_context(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "g:\TITO\VS_CODE\ShambaSmart\.venv\Lib\site-packages\sqlalchemy\engine\base.py", line 1986, in _exec_single_context
+    self._handle_dbapi_exception(
+  File "g:\TITO\VS_CODE\ShambaSmart\.venv\Lib\site-packages\sqlalchemy\engine\base.py", line 2355, in _handle_dbapi_exception
+    raise sqlalchemy_exception.with_traceback(exc_info[2]) from e
+  File "g:\TITO\VS_CODE\ShambaSmart\.venv\Lib\site-packages\sqlalchemy\engine\base.py", line 1967, in _exec_single_context
+    self.dialect.do_execute(
+  File "g:\TITO\VS_CODE\ShambaSmart\.venv\Lib\site-packages\sqlalchemy\engine\default.py", line 941, in do_execute
+    cursor.execute(statement, parameters)
+sqlalchemy.exc.OperationalError: (sqlite3.OperationalError) no such column: crop.quantity_unit
+[SQL: SELECT crop.crop_id AS crop_crop_id, crop.farm_id AS crop_farm_id, crop.crop_name AS crop_crop_name, crop.variety AS crop_variety, crop.quantity AS crop_quantity, crop.quantity_unit AS crop_quantity_unit, crop.date_planted AS crop_date_planted, crop.quantity_harvested AS crop_quantity_harvested, crop.image AS crop_image, crop.farmer_id AS crop_farmer_id 
+FROM crop 
+WHERE crop.farm_id = ?]
+[parameters: (2,)]
+(Background on this error at: https://sqlalche.me/e/20/e3q8)
+2024-09-19 17:59:28,185 - ERROR - Exception on /add_crop/2 [GET]
+Traceback (most recent call last):
+  File "g:\TITO\VS_CODE\ShambaSmart\.venv\Lib\site-packages\flask\app.py", line 1473, in wsgi_app
+    response = self.full_dispatch_request()
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "g:\TITO\VS_CODE\ShambaSmart\.venv\Lib\site-packages\flask\app.py", line 882, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "g:\TITO\VS_CODE\ShambaSmart\.venv\Lib\site-packages\flask\app.py", line 880, in full_dispatch_request
+    rv = self.dispatch_request()
+         ^^^^^^^^^^^^^^^^^^^^^^^
+  File "g:\TITO\VS_CODE\ShambaSmart\.venv\Lib\site-packages\flask\app.py", line 865, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)  # type: ignore[no-any-return]
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "G:\TITO\VS_CODE\ShambaSmart\website\views.py", line 116, in add_crop
+    return render_template('add_crop.html', farm=farm)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "g:\TITO\VS_CODE\ShambaSmart\.venv\Lib\site-packages\flask\templating.py", line 150, in render_template
+    return _render(app, template, context)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "g:\TITO\VS_CODE\ShambaSmart\.venv\Lib\site-packages\flask\templating.py", line 131, in _render
+    rv = template.render(context)
+         ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "g:\TITO\VS_CODE\ShambaSmart\.venv\Lib\site-packages\jinja2\environment.py", line 1304, in render
+    self.environment.handle_exception()
+  File "g:\TITO\VS_CODE\ShambaSmart\.venv\Lib\site-packages\jinja2\environment.py", line 939, in handle_exception
+    raise rewrite_traceback_stack(source=source)
+  File "G:\TITO\VS_CODE\ShambaSmart\website\templates\add_crop.html", line 1, in top-level template code
+    {% extends "base.html" %}
+  File "G:\TITO\VS_CODE\ShambaSmart\website\templates\base.html", line 30, in top-level template code
+    {% block content %}
+  File "G:\TITO\VS_CODE\ShambaSmart\website\templates\add_crop.html", line 26, in block 'content'
+    <option value="grams" {% if crop.quantity_unit=='grams' %}selected{% endif %}>g</option>
+    ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "g:\TITO\VS_CODE\ShambaSmart\.venv\Lib\site-packages\jinja2\environment.py", line 487, in getattr
+    return getattr(obj, attribute)
+           ^^^^^^^^^^^^^^^^^^^^^^^
+jinja2.exceptions.UndefinedError: 'crop' is undefined
+2024-09-19 18:08:25,133 - ERROR - Exception on /add_crop/2 [GET]
+Traceback (most recent call last):
+  File "g:\TITO\VS_CODE\ShambaSmart\.venv\Lib\site-packages\flask\app.py", line 1473, in wsgi_app
+    response = self.full_dispatch_request()
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "g:\TITO\VS_CODE\ShambaSmart\.venv\Lib\site-packages\flask\app.py", line 882, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "g:\TITO\VS_CODE\ShambaSmart\.venv\Lib\site-packages\flask\app.py", line 880, in full_dispatch_request
+    rv = self.dispatch_request()
+         ^^^^^^^^^^^^^^^^^^^^^^^
+  File "g:\TITO\VS_CODE\ShambaSmart\.venv\Lib\site-packages\flask\app.py", line 865, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)  # type: ignore[no-any-return]
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "G:\TITO\VS_CODE\ShambaSmart\website\views.py", line 118, in add_crop
+    return render_template('add_crop.html', farm=farm)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "g:\TITO\VS_CODE\ShambaSmart\.venv\Lib\site-packages\flask\templating.py", line 150, in render_template
+    return _render(app, template, context)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "g:\TITO\VS_CODE\ShambaSmart\.venv\Lib\site-packages\flask\templating.py", line 131, in _render
+    rv = template.render(context)
+         ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "g:\TITO\VS_CODE\ShambaSmart\.venv\Lib\site-packages\jinja2\environment.py", line 1304, in render
+    self.environment.handle_exception()
+  File "g:\TITO\VS_CODE\ShambaSmart\.venv\Lib\site-packages\jinja2\environment.py", line 939, in handle_exception
+    raise rewrite_traceback_stack(source=source)
+  File "G:\TITO\VS_CODE\ShambaSmart\website\templates\add_crop.html", line 1, in top-level template code
+    {% extends "base.html" %}
+  File "G:\TITO\VS_CODE\ShambaSmart\website\templates\base.html", line 30, in top-level template code
+    {% block content %}
+  File "G:\TITO\VS_CODE\ShambaSmart\website\templates\add_crop.html", line 29, in block 'content'
+    <!-- {{ form.quantity }} -->
+    ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "g:\TITO\VS_CODE\ShambaSmart\.venv\Lib\site-packages\jinja2\environment.py", line 487, in getattr
+    return getattr(obj, attribute)
+           ^^^^^^^^^^^^^^^^^^^^^^^
+jinja2.exceptions.UndefinedError: 'form' is undefined

@@ -11,6 +11,14 @@
 
 <body>
     <div class="container">
+        <nav>
+            <div>
+                <h1>ShambaSmart</h1>
+            </div>
+            <div>
+                <a href="{{ url_for('auth.logout') }}" class="btn btn-secondary">Logout</a>
+            </div>
+        </nav>
         <div class="content">
             {% with messages = get_flashed_messages(with_categories=true) %}
             {% if messages %}

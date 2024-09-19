@@ -11,9 +11,10 @@
 
         <!-- List the crops in the farm -->
         <h4>Crops in Farm:</h4>
+        <h3>Total: {{ crop_count }}</h3>
         <ul>
             {% for crop in crops %}
-            <li>{{ crop.name }}</li>
+            <li>{{ crop.crop_name }}</li>
             {% endfor %}
         </ul>
         <a href="{{ url_for('views.add_crop', farm_id=farm.id) }}">

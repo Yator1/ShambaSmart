@@ -31,6 +31,7 @@ class Crop(db.Model):
     crop_name = db.Column(db.String(80), nullable=False)
     variety = db.Column(db.String(100), nullable=False)
     quantity = db.Column(db.Integer, nullable=False)
+    quantity_unit = db.Column(db.String(50), nullable=False, default='grams')
     date_planted = db.Column(db.Date, default=func.now())
     quantity_harvested = db.Column(db.Float, nullable=True)  # Quantity of harvest
     stages = db.relationship('PlantStage', backref='crop', lazy=True)
@@ -49,7 +50,7 @@ class Crop(db.Model):
 class PlantStage(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     crop_id = db.Column(db.Integer, db.ForeignKey('crop.crop_id'), nullable=False)
-    stage_name = db.Column(db.String(50), nullable=False)  # e.g., Planting, Transplanting
+    stage_name = db.Column(db.String(50), nullable=False, default='Planting')  # e.g., Planting, Transplanting
     date_recorded = db.Column(db.Date, default=func.now())  # Date of the stage
 
 # class Seed(db.Model):
