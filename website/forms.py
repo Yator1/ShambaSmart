@@ -8,6 +8,6 @@ class AddCropForm(FlaskForm):
     variety = StringField('Variety', validators=[DataRequired()])
     date_planted = DateField('Date Planted', validators=[DataRequired()])
     quantity = FloatField('Quantity', validators=[DataRequired()])
-    stage_name = SelectField('Stage', choices=[('planting', 'Planting'), ('transplanting', 'Transplanting')])
+    stage_name = SelectField('Stage', choices=[('planting', 'Planting'), ('transplanting', 'Transplanting')], validators=[DataRequired()])
     date_recorded = DateField('Stage Date', validators=[DataRequired()])
     image = FileField('Plant Image')

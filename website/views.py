@@ -65,39 +65,56 @@ def add_crop(farm_id):
         # Log form data
         current_app.logger.info(f'Adding crop with name: {form.name.data}, variety: {form.variety.data}')
 
+        try:
         # Saving the crop info
-        crop = Crop(
-            name=form.name.data,
-            variety=form.variety.data,
-            date_planted=form.date_planted.data,
-            quantity=form.quantity.data,
-            farm_id=farm_id
-        )
-        db.session.add(crop)
-        db.session.commit()
+            crop = Crop(
+                crop_name=form.name.data,
+                variety=form.variety.data,
+                date_planted=form.date_planted.data,
+                quantity=form.quantity.data,
+                farm_id=current_user.id
+            )
+            db.session.add(crop)
+            #db.session.commit()
+            db.session.flush()
 
-        # Save the stage
-        stage = PlantStage(
-            crop_id=crop.crop_id,
-            stage_name=form.stage_name.data,
-            date_recorded=form.date_recorded.data
-        )
-        db.session.add(stage)
-        db.session.commit()
+            # Save the stage
+            stage = PlantStage(
+                crop_id=crop.crop_id,
+                stage_name=form.stage_name.data,
+                date_recorded=form.date_recorded.data
+            )
+            db.session.add(stage)
+            db.session.commit()
+            current_app.logger.info(f'Crop {crop.crop_name} and stage {stage.stage_name} added successfully.')
+        except Exception as e:
+            current_app.logger.error(f"Error adding crop: {e}")
+            db.session.rollback()
+            flash('An error occurred while adding the crop.', 'error')
+            return redirect(url_for('views.add_crop', farm_id=farm_id))
 
         # Save image if uploaded
         if form.image.data and allowed_file(form.image.data.filename):
             filename = secure_filename(form.image.data.filename)
-            image_path = os.path.join(current_app.config['UPLOAD_FOLDER'], filename)
-            form.image.data.save(image_path)
-            crop.image = filename
-            db.session.commit()
+            try:
+                image_path = os.path.join(current_app.config['UPLOAD_FOLDER'], filename)
+                form.image.data.save(image_path)
+                crop.image = filename
+                db.session.commit()
+            except Exception as e:
+                current_app.logger.error(f"Error saving image: {e}")
+                db.session.rollback()
+                flash('An error occurred while saving the image.', 'error')
+
         else:
-            flash('Invalid file type. Only images are allowed.', 'error')
-            current_app.logger.warning('Invalid file type for image upload.')
+            if form.image.data:
+                flash('Invalid file type. Only images are allowed.', 'error')
+                current_app.logger.warning('Invalid file type for image upload.')
 
         flash('Crop added successfully', 'success')
         return redirect(url_for('views.home', farm_id=farm_id))
+    else:
+        current_app.logger.warning(f'Form validation failed: {form.errors}')
 
     return render_template('add_crop.html', form=form, farm=farm)
 
