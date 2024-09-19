@@ -5,12 +5,12 @@
     <!-- Display current farm info -->
     {% if farm %}
     <div class="farm-info">
-        <p>Farm Name: {{ farm.name }}</p>
-        <p>Farm Size: {{ farm.size }} {{ farm.size_unit }}</p>
+        <p>Name: {{ farm.name }}</p>
+        <p>Size: {{ farm.size }} {{ farm.size_unit }}</p>
         <p>Location: {{ farm.address }}</p>
 
         <!-- List the crops in the farm -->
-        <h4>Crops in Farm:</h4>
+        <h4>Crops:</h4>
         <h3>Total: {{ crop_count }}</h3>
         <ul>
             {% for crop in crops %}
