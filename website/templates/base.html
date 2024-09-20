@@ -32,10 +32,10 @@
             <!-- Sidebar -->
             <div class="col-auto sidebar" id="sidebar">
                 <div class="d-flex flex-column p-3">
-                    <h2 class="mb-4">ShambaSmart</h2>
+                    <h2 class="mb-4">{{ farm.name }}</h2>
                     <ul class="nav flex-column">
                         <li class="nav-item mb-2">
-                            <a href="{{ url_for('views.home') }}" class="nav-link">Overview</a>
+                            <a href="{{ url_for('views.home') }}" class="nav-link"><h4>Overview</h4></a>
                         </li>
                         <li class="nav-item mb-2">
                             <a href="{{ url_for('views.daily_reports') }}" class="nav-link">Daily Work Reports</a>
