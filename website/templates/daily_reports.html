@@ -1,0 +1,34 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container mt-4">
+    <h2>Daily Reports</h2>
+
+    <form method="POST">
+        <div class="form-group">
+            <label for="report_date">Report Date:</label>
+            <input type="date" class="form-control" name="report_date" required>
+        </div>
+        <div class="form-group">
+            <label for="description">Description:</label>
+            <textarea class="form-control" name="description" rows="3" required></textarea>
+        </div>
+        <button type="submit" class="btn btn-primary">Add Report</button>
+    </form>
+
+    <hr>
+
+    <h3>Previous Reports</h3>
+    {% if reports %}
+        <ul class="list-group">
+            {% for report in reports %}
+                <li class="list-group-item">
+                    <strong>{{ report.report_date }}</strong>: {{ report.description }}
+                </li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p>No reports available.</p>
+    {% endif %}
+</div>
+{% endblock %}

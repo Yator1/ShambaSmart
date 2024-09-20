@@ -38,14 +38,22 @@ class Crop(db.Model):
     image = db.Column(db.String(200), nullable=True)  # For storing the image path
     farmer_id = db.Column(db.Integer, db.ForeignKey('farmer.id'), nullable=False)
     farmer = db.relationship('Farmer', back_populates='crops')
+    expenses = db.relationship('Expense', back_populates='crop', lazy=True)
+    sales = db.relationship('Sale', back_populates='crop', lazy=True)
 
-    # seeds = db.relationship('Seed', backref='crop', lazy=True)
-    # agrochemicals = db.relationship('Agrochemical', backref='crop', lazy=True)
-    # fertilizers = db.relationship('Fertilizer', backref='crop', lazy=True)
-    # Foreign key to the Farmer table
-       
-    # Define relationship to Farmer
+    def total_cost(self):
+        """Calculate total expenses for this crop"""
+        return sum(expense.amount for expense in self.expenses)
+
+    def total_retail(self):
+        """Calculate total sales for this crop"""
+        # Assuming you have a Sales model similar to the Expense model
+        return sum(sale.total_sale for sale in self.sales)  # Adjust based on your sales model
     
+    def calculate_profit(self):
+        """Calculate the profit for this crop"""
+        return self.total_retail() - self.total_cost()
+
 
 class PlantStage(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -53,38 +61,35 @@ class PlantStage(db.Model):
     stage_name = db.Column(db.String(50), nullable=False, default='Planting')  # e.g., Planting, Transplanting
     date_recorded = db.Column(db.Date, default=func.now())  # Date of the stage
 
-# class Seed(db.Model):
-#     seed_id = db.Column(db.Integer, primary_key=True)
-#     company = db.Column(db.String(100), nullable=False)
-#     grade = db.Column(db.String(50), nullable=False)
-#     amount = db.Column(db.Float, nullable=False)
-#     transplant_date = db.Column(db.Date, default=func.now())
-#     crop_id = db.Column(db.Integer, db.ForeignKey('crop.crop_id'), nullable=False)
+
+class Expense(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    crop_id = db.Column(db.Integer, db.ForeignKey('crop.crop_id'), nullable=False)
+    date = db.Column(db.Date, nullable=False)  # Date of the expense
+    description = db.Column(db.String(255), nullable=False)  # What the expense was for
+    amount = db.Column(db.Float, nullable=False)  # Cost of the expense
+    category = db.Column(db.String(50), nullable=False)  # Labor, fertilizer, etc.
+
+    crop = db.relationship('Crop', back_populates='expenses')
 
 
-# class Agrochemical(db.Model):
-#     agrochemical_id = db.Column(db.Integer, primary_key=True)
-#     name = db.Column(db.String(100), nullable=False)
-#     quantity = db.Column(db.Float, nullable=False)
-#     application_method = db.Column(db.String(100), nullable=True)
-#     application_date = db.Column(db.Date, default=func.now())
-#     crop_id = db.Column(db.Integer, db.ForeignKey('crop.crop_id'), nullable=False)
+class Sale(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    crop_id = db.Column(db.Integer, db.ForeignKey('crop.crop_id'), nullable=False)
+    date = db.Column(db.Date, nullable=False)  # Date of the sale
+    quantity_sold = db.Column(db.Float, nullable=False)  # Quantity sold
+    price_per_kg = db.Column(db.Float, nullable=False)  # Price per kg
+    total_sale = db.Column(db.Float, nullable=False)  # Total sale = quantity_sold * price_per_kg
 
-# class Fertilizer(db.Model):
-#     fertilizer_id = db.Column(db.Integer, primary_key=True)
-#     name = db.Column(db.String(100), nullable=False)
-#     quantity = db.Column(db.Float, nullable=False)
-#     application_method = db.Column(db.String(100), nullable=True)
-#     application_date = db.Column(db.Date, default=func.now())
-#     crop_id = db.Column(db.Integer, db.ForeignKey('crop.crop_id'), nullable=False)
+    crop = db.relationship('Crop', back_populates='sales')
 
 
-# class Transplant(db.Model):
-#     transplant_id = db.Column(db.Integer, primary_key=True)
-#     crop_type = db.Column(db.String(80), nullable=False)
-#     date_transplanted = db.Column(db.Date, default=func.now())
-#     number_of_heads = db.Column(db.Integer)
-#     farm_size = db.Column(db.String(50))
-#     fertilizer = db.Column(db.String(100))
-#     fertilizer_quantity = db.Column(db.String(100))
-#     farmer_id = db.Column(db.Integer, db.ForeignKey('farmer.id'), nullable=False)
+class DailyReport(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    crop_id = db.Column(db.Integer, db.ForeignKey('crop.crop_id'), nullable=True)  # Optional crop
+    farm_id = db.Column(db.Integer, db.ForeignKey('farm.id'), nullable=False)
+    date = db.Column(db.Date, nullable=False)
+    activity = db.Column(db.String(255), nullable=False)
+
+    crop = db.relationship('Crop', backref='daily_reports', lazy=True)
+    farm = db.relationship('Farm', backref='daily_reports', lazy=True)

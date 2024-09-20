@@ -2,7 +2,7 @@ from flask import Blueprint, render_template, session, redirect, url_for, flash,
 from flask_login import login_required, current_user
 from werkzeug.utils import secure_filename
 import os
-from .models import Farm, Crop, Farmer, PlantStage
+from .models import Farm, Crop, Farmer, PlantStage, Expense, Sale, DailyReport
 from datetime import datetime
 # from.forms import AddCropForm
 from . import db
@@ -18,11 +18,14 @@ def home():
     
     if farm:
         crops = Crop.query.filter_by(farm_id=farm.id).all()
+        total_expenses = db.session.query(db.func.sum(Expense.amount)).filter(Expense.crop_id.in_([crop.crop_id for crop in crops])).scalar() or 0
+        total_sales = db.session.query(db.func.sum(Sale.total_sale)).filter(Sale.crop_id.in_([crop.crop_id for crop in crops])).scalar() or 0
+        total_profit = total_sales - total_expenses
     else:
         crops = []
 
     crop_count = len(crops)
-    return render_template("home.html", farm=farm, crops=crops, crop_count=crop_count)
+    return render_template("home.html", farm=farm, crops=crops, crop_count=crop_count,total_expenses=total_expenses, total_sales=total_sales, total_profit=total_profit)
 
 @views.route('/add_farm', methods=['GET', 'POST'])
 def add_farm():
@@ -161,6 +164,137 @@ def delete_crop(crop_id):
     return redirect(url_for('views.view_farm', farm_id=crop.farm_id))
 
 @views.route('/farm/<int:farm_id>', methods=['GET'])
-def view_farm(crop_id):
-    farm = Farm.query.get_or_404(crop_id)
+def view_farm(farm_id):
+    farm = Farm.query.get_or_404(farm_id)
     return render_template('view_farm.html', farm=farm)
+
+
+@views.route('/crop/<int:crop_id>', methods=['GET', 'POST'])
+@login_required
+def crop_detail(crop_id):
+    crop = Crop.query.get_or_404(crop_id)
+
+    # Fetch existing expenses and sales for this crop
+    expenses = Expense.query.filter_by(crop_id=crop_id).all()
+    sales = Sale.query.filter_by(crop_id=crop_id).all()
+
+    # Calculate total expenses, total sales, and profit for this specific crop
+    total_expenses = db.session.query(db.func.sum(Expense.amount)).filter_by(crop_id=crop_id).scalar() or 0
+    total_sales = db.session.query(db.func.sum(Sale.total_sale)).filter_by(crop_id=crop_id).scalar() or 0
+    total_profit = total_sales - total_expenses
+
+    if request.method == 'POST':
+        # Handle adding new expense or sale
+        if 'add_expense' in request.form:
+            expense_type = request.form.get('expense_type')
+            cost = request.form.get('cost')
+            stage = request.form.get('stage')
+            date_incurred = request.form.get('date_incurred')
+
+            # Add new expense
+            new_expense = Expense(
+                crop_id=crop_id,
+                expense_type=expense_type,
+                cost=cost,
+                stage=stage,
+                date_incurred=date_incurred
+            )
+            db.session.add(new_expense)
+            db.session.commit()
+            flash('Expense added successfully!', 'success')
+
+        elif 'add_sale' in request.form:
+            amount_sold = request.form.get('amount_sold')
+            revenue = request.form.get('revenue')
+            date_of_sale = request.form.get('date_of_sale')
+
+            # Add new sale
+            new_sale = Sale(
+                crop_id=crop_id,
+                amount_sold=amount_sold,
+                revenue=revenue,
+                date_of_sale=date_of_sale
+            )
+            db.session.add(new_sale)
+            db.session.commit()
+            flash('Sale added successfully!', 'success')
+
+        return redirect(url_for('views.crop_detail', crop_id=crop_id))
+
+    return render_template('crop_detail.html', crop=crop, expenses=expenses, sales=sales, total_expenses=total_expenses, total_sales=total_sales, total_profit=total_profit)
+
+
+@views.route('/daily_reports', methods=['GET', 'POST'])
+@login_required
+def daily_reports():
+    farm = Farm.query.filter_by(farmer_id=current_user.id).first()
+    reports = DailyReport.query.filter_by(farm_id=farm.id).all()
+
+    if request.method == 'POST':
+        report_date = request.form.get('report_date')
+        description = request.form.get('description')
+
+        new_report = DailyReport(report_date=report_date, description=description, farm_id=farm.id)
+        db.session.add(new_report)
+        db.session.commit()
+        flash('Daily report added successfully!', category='success')
+
+    return render_template('daily_reports.html', farm=farm, reports=reports)
+
+@views.route('/products', methods=['GET', 'POST'])
+@login_required
+def products():
+    farm = Farm.query.filter_by(farmer_id=current_user.id).first()
+    crops = Crop.query.filter_by(farm_id=farm.id).all()
+
+    if request.method == 'POST':
+        crop_name = request.form.get('crop_name')
+        variety = request.form.get('variety')
+        quantity = request.form.get('quantity')
+        date_planted = request.form.get('date_planted')
+
+        new_crop = Crop(name=crop_name, variety=variety, quantity=quantity, date_planted=date_planted, farm_id=farm.id)
+        db.session.add(new_crop)
+        db.session.commit()
+        flash('New crop added successfully!', category='success')
+
+        # Add total expenses, sales, and profit for each crop
+    for crop in crops:
+        crop.total_expenses = crop.total_cost()
+        crop.total_sales = crop.total_retail()
+        crop.profit = crop.calculate_profit()
+
+    return render_template('products.html', farm=farm, crops=crops)
+
+@views.route('/financial_activities', methods=['GET'])
+@login_required
+def financial_activities():
+    farm = Farm.query.filter_by(farmer_id=current_user.id).first()
+    
+    # Fetching all expenses and sales related to the farm
+    total_expenses = db.session.query(db.func.sum(Expense.amount)).filter(Expense.crop_id.in_([crop.crop_id for crop in Crop.query.filter_by(farm_id=farm.id).all()])).scalar() or 0
+    total_sales = db.session.query(db.func.sum(Sale.total_sale)).filter(Sale.crop_id.in_([crop.crop_id for crop in Crop.query.filter_by(farm_id=farm.id).all()])).scalar() or 0
+    total_profit = total_sales - total_expenses
+
+    return render_template('financial_activity.html', farm=farm, total_expenses=total_expenses, total_sales=total_sales, total_profit=total_profit)
+
+
+@views.route('/account', methods=['GET', 'POST'])
+@login_required
+def account():
+    user = current_user
+
+    if request.method == 'POST':
+        email = request.form.get('email')
+        profile_pic = request.form.get('profile_pic')  # Optional file upload handling
+
+        user.email = email
+        if profile_pic:
+            user.profile_pic = profile_pic  # Save the file appropriately
+
+        db.session.commit()
+        flash('Account details updated!', category='success')
+    
+    farms = user.farms
+
+    return render_template('account.html', user=user, farms=farms)

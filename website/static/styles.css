@@ -1,0 +1,33 @@
+/* Sidebar Styling */
+.sidebar {
+    width: 250px;
+    background-color: #f8f9fa;
+    min-height: 100vh;
+}
+
+.sidebar .nav-link {
+    color: #333;
+    padding: 10px;
+}
+
+.sidebar .nav-link:hover {
+    background-color: #e9ecef;
+}
+
+/* Main Content Styling */
+main {
+    margin-left: 250px; /* Adjust for the sidebar width */
+    padding-top: 20px;
+}
+
+.card {
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.navbar {
+    z-index: 999;
+    position: sticky;
+    top: 0;
+    width: 100%;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}

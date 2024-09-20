@@ -1,36 +1,59 @@
 {% extends "base.html" %}
 {% block content %}
-<div>
-    <h1>Welcome to {{ current_user.first_name }}'s Farms</h1>
-    <!-- Display current farm info -->
-    {% if farm %}
-    <div class="farm-info">
-        <p>Name: {{ farm.name }}</p>
-        <p>Size: {{ farm.size }} {{ farm.size_unit }}</p>
-        <p>Location: {{ farm.address }}</p>
-
-        <!-- List the crops in the farm -->
-        <h4>Crops:</h4>
-        <h3>Total: {{ crop_count }}</h3>
-        <ul>
-            {% for crop in crops %}
-            <li>{{ crop.crop_name }}</li>
-            {% endfor %}
-        </ul>
-        <a href="{{ url_for('views.add_crop', farm_id=farm.id) }}">
-            <button>Add Crop</button>
-        </a>
-        <a href="{{ url_for('views.edit_farm', farm_id=farm.id) }}">
-            <button>Edit farm</button>
-        </a>
+<div class="container-fluid">
+    <!-- Overview Page Content -->
+    <div class="pt-3 pb-2 mb-3 border-bottom">
+        <h1 class="h2">Farm Overview</h1>
     </div>
-    {% else %}
-    <p>No farm information available. Please add a farm.</p>
-    {% endif %}
-</div>
-<div>
-    <a href="{{ url_for('views.add_farm') }}">
-        <button>Add farm</button>
-    </a>
+    <div class="row">
+        <!-- Farm Name Card -->
+        <div class="col-md-4">
+            <div class="card mb-4">
+                <div class="card-body">
+                    <h5 class="card-title">{{ farm.name }}</h5>
+                    <p class="card-text">Total Size: {{ farm.size }} {{ farm.size_unit }}</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Crops Planted Card -->
+        <div class="col-md-4">
+            <div class="card mb-4">
+                <div class="card-body">
+                    <h5 class="card-title">Crops Planted</h5>
+                    <p class="card-text">
+                        {% for crop in crops %}
+                            {{ crop.crop_name }}{% if not loop.last %}, {% endif %}
+                        {% endfor %}
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Financial Overview Cards -->
+        <div class="col-md-4">
+            <div class="card mb-4">
+                <div class="card-body">
+                    <h5 class="card-title">Financial Overview</h5>
+                    <p class="card-text">Total Expenses: KES {{ total_expenses }}</p>
+                    <p class="card-text">Total Sales: KES {{ total_sales }}</p>
+                    <p class="card-text">Total Profit: KES {{ total_profit }}</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Individual Crop Cards -->
+        {% for crop in crops %}
+        <div class="col-md-4">
+            <div class="card mb-4">
+                <div class="card-body">
+                    <h5 class="card-title">{{ crop.crop_name }} - {{ crop.variety }}</h5>
+                    <p class="card-text">Date Planted: {{ crop.date_planted }}</p>
+                    <a href="{{ url_for('views.crop_detail', crop_id=crop.crop_id) }}" class="btn btn-primary">View Details</a>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
 </div>
 {% endblock %}
