@@ -42,28 +42,27 @@
         <div class="col-md-6">
             <h4>Add Expense</h4>
             <form method="POST" action="{{ url_for('views.crop_detail', crop_id=crop.crop_id) }}">
-                {{ form.hidden_tag() }}
+                
                 <input type="hidden" name="add_expense" value="true">
 
                 <div class="mb-3">
                     <label for="expense_type" class="form-label">Expense Type</label>
                     <select class="form-control" name="expense_type" id="expense_type" required>
-                        <option value="Seed">SeedS</option>
+                        <option value="Seed">Seeds</option>
                         <option value="Fertilizer">Fertilizer</option>
                         <option value="Pesticide">Pesticide</option>
-                        <option value="Labor">Labor</option>
-                        <option value="Harvest">Harvest</option>
+                        <option value="Labor">Labor</option>                        
                     </select>
                 </div>
 
                 <div class="mb-3">
                     <label for="cost" class="form-label">Cost (KES)</label>
-                    <input type="number" class="form-control" id="cost" name="cost" required>
+                    <input type="number" class="form-control" id="cost" name="cost" required placeholder="Enter Amount">
                 </div>
 
                 <div class="mb-3">
                     <label for="stage" class="form-label">Crop Stage</label>
-                    <input type="text" class="form-control" id="stage" name="stage">
+                    <input type="text" class="form-control" id="stage" name="stage" placeholder="i.e Planting, Harvesting">
                 </div>
 
                 <div class="mb-3">
@@ -78,7 +77,7 @@
         <div class="col-md-6">
             <h4>Add Sale</h4>
             <form method="POST" action="{{ url_for('views.crop_detail', crop_id=crop.crop_id) }}">
-                {{ form.hidden_tag() }}
+                
                 <input type="hidden" name="add_sale" value="true">
 
                 <div class="mb-3">
@@ -87,8 +86,8 @@
                 </div>
 
                 <div class="mb-3">
-                    <label for="revenue" class="form-label">Revenue (KES)</label>
-                    <input type="number" step="0.01" class="form-control" id="revenue" name="revenue" required>
+                    <label for="revenue" class="form-label">Price per KG (KES)</label>
+                    <input type="number" step="0.01" class="form-control" id="price" name="price" required>
                 </div>
 
                 <div class="mb-3">
@@ -117,10 +116,10 @@
                 <tbody>
                     {% for expense in expenses %}
                     <tr>
-                        <td>{{ expense.expense_type }}</td>
-                        <td>{{ expense.cost }}</td>
-                        <td>{{ expense.stage }}</td>
-                        <td>{{ expense.date_incurred }}</td>
+                        <td>{{ expense.category }}</td>
+                        <td>{{ expense.amount }}</td>
+                        <td>{{ expense.description }}</td>
+                        <td>{{ expense.date }}</td>
                     </tr>
                     {% endfor %}
                 </tbody>
@@ -133,6 +132,7 @@
                 <thead>
                     <tr>
                         <th>Amount Sold (kg)</th>
+                        <th>Price per KG</th>
                         <th>Revenue (KES)</th>
                         <th>Date of Sale</th>
                     </tr>
@@ -140,9 +140,10 @@
                 <tbody>
                     {% for sale in sales %}
                     <tr>
-                        <td>{{ sale.amount_sold }}</td>
-                        <td>{{ sale.revenue }}</td>
-                        <td>{{ sale.date_of_sale }}</td>
+                        <td>{{ sale.quantity_sold }}</td>
+                        <td>{{ sale.price_per_kg }}</td>
+                        <td>{{ sale.total_sale }}</td>
+                        <td>{{ sale.date }}</td>
                     </tr>
                     {% endfor %}
                 </tbody>

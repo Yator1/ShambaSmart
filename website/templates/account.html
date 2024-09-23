@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container mt-4">
+    <h2 class="mb-4">Farmer Account Information</h2>
+    
+    <div class="card">
+        <div class="card-header">
+            <h5>Farmer Details</h5>
+        </div>
+        <div class="card-body">
+            <ul class="list-group">
+                <li class="list-group-item"><strong>First Name:</strong> {{ user.first_name }}</li>
+                <li class="list-group-item"><strong>Last Name:</strong> {{ user.last_name }}</li>
+                <li class="list-group-item"><strong>Email:</strong> {{ user.email }}</li>
+                <li class="list-group-item"><strong>Username:</strong> {{ user.username }}</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="card mt-4">
+        <div class="card-header">
+            <h5>Your Farms</h5>
+        </div>
+        <div class="card-body">
+            {% if farms %}
+                <ul class="list-group">
+                    {% for farm in farms %}
+                        <li class="list-group-item">
+                            <strong>Farm Name:</strong> {{ farm.name }}<br>
+                            <strong>Location:</strong> {{ farm.location }}<br>
+                            <strong>Size:</strong> {{ farm.size }} acres
+                        </li>
+                    {% endfor %}
+                </ul>
+            {% else %}
+                <p>No farms found. Please add a farm.</p>
+            {% endif %}
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -28,7 +28,10 @@ def home():
     return render_template("home.html", farm=farm, crops=crops, crop_count=crop_count,total_expenses=total_expenses, total_sales=total_sales, total_profit=total_profit)
 
 @views.route('/add_farm', methods=['GET', 'POST'])
+@login_required
 def add_farm():
+    farm = Farm.query.filter_by(farmer_id=current_user.id).first()
+
     if request.method == 'POST':
         farm_name = request.form.get('name')
         country = request.form.get('country')
@@ -42,7 +45,7 @@ def add_farm():
         flash('Farm added successfully', category='success')
         return redirect(url_for('views.home'))
 
-    return render_template('add_farm.html')
+    return render_template('add_farm.html', farm=farm)
 
 # edit information 
 @views.route('/edit_farm/<int:farm_id>', methods=['GET', 'POST'])
@@ -174,6 +177,8 @@ def view_farm(farm_id):
 def crop_detail(crop_id):
     crop = Crop.query.get_or_404(crop_id)
 
+    farm = crop.farm
+
     # Fetch existing expenses and sales for this crop
     expenses = Expense.query.filter_by(crop_id=crop_id).all()
     sales = Sale.query.filter_by(crop_id=crop_id).all()
@@ -189,15 +194,17 @@ def crop_detail(crop_id):
             expense_type = request.form.get('expense_type')
             cost = request.form.get('cost')
             stage = request.form.get('stage')
-            date_incurred = request.form.get('date_incurred')
+            date_incurred_str = request.form.get('date_incurred')
+
+            date_incurred = datetime.strptime(date_incurred_str, '%Y-%m-%d').date()
 
             # Add new expense
             new_expense = Expense(
                 crop_id=crop_id,
-                expense_type=expense_type,
-                cost=cost,
-                stage=stage,
-                date_incurred=date_incurred
+                category=expense_type,
+                amount=cost,
+                description=stage,
+                date=date_incurred
             )
             db.session.add(new_expense)
             db.session.commit()
@@ -205,15 +212,19 @@ def crop_detail(crop_id):
 
         elif 'add_sale' in request.form:
             amount_sold = request.form.get('amount_sold')
-            revenue = request.form.get('revenue')
-            date_of_sale = request.form.get('date_of_sale')
+            price = request.form.get('price')
+            date_of_sale_str = request.form.get('date_of_sale')
+
+            total = float(price) * float(amount_sold)
+            date_of_sale = datetime.strptime(date_of_sale_str, '%Y-%m-%d').date()
 
             # Add new sale
             new_sale = Sale(
                 crop_id=crop_id,
-                amount_sold=amount_sold,
-                revenue=revenue,
-                date_of_sale=date_of_sale
+                quantity_sold=amount_sold,
+                total_sale=total,
+                date=date_of_sale,
+                price_per_kg=price
             )
             db.session.add(new_sale)
             db.session.commit()
@@ -221,7 +232,7 @@ def crop_detail(crop_id):
 
         return redirect(url_for('views.crop_detail', crop_id=crop_id))
 
-    return render_template('crop_detail.html', crop=crop, expenses=expenses, sales=sales, total_expenses=total_expenses, total_sales=total_sales, total_profit=total_profit)
+    return render_template('crop_detail.html', crop=crop, farm=farm, expenses=expenses, sales=sales, total_expenses=total_expenses, total_sales=total_sales, total_profit=total_profit)
 
 
 @views.route('/daily_reports', methods=['GET', 'POST'])
@@ -231,10 +242,10 @@ def daily_reports():
     reports = DailyReport.query.filter_by(farm_id=farm.id).all()
 
     if request.method == 'POST':
-        report_date = request.form.get('report_date')
+        report_date = datetime.strptime(request.form.get('report_date'), '%Y-%m-%d').date()
         description = request.form.get('description')
 
-        new_report = DailyReport(report_date=report_date, description=description, farm_id=farm.id)
+        new_report = DailyReport(date=report_date, activity=description, farm_id=farm.id)
         db.session.add(new_report)
         db.session.commit()
         flash('Daily report added successfully!', category='success')
@@ -283,6 +294,7 @@ def financial_activities():
 @login_required
 def account():
     user = current_user
+    # farm = Farm.query.filter_by(farmer_id=user.id).first()
 
     if request.method == 'POST':
         email = request.form.get('email')
@@ -297,4 +309,4 @@ def account():
     
     farms = user.farms
 
-    return render_template('account.html', user=user, farms=farms)
+    return render_template('account.html', user=user, farm=farms)
