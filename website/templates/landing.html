@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ShambaSmart - Landing Page</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="../static/styles.css">
+</head>
+<body>
+
+    <header class="hero">
+        <div class="container">
+            <h1 class="display-4">Welcome to ShambaSmart</h1>
+            <p class="lead">Your ultimate farm management solution</p>
+            <a href="{{ url_for('auth.signup') }}" class="btn btn-primary btn-lg">Get Started</a>
+        </div>
+    </header>
+
+    <section class="py-5 bg-light">
+        <div class="container">
+            <h2 class="text-center">Features</h2>
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="card mb-4">
+                        <div class="card-body">
+                            <h5 class="card-title">Record Keeping</h5>
+                            <p class="card-text">Easily keep track of your crops, expenses, and daily activities.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="card mb-4">
+                        <div class="card-body">
+                            <h5 class="card-title">Financial Tracking</h5>
+                            <p class="card-text">Monitor your profits and expenses to optimize your farm's performance.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="card mb-4">
+                        <div class="card-body">
+                            <h5 class="card-title">User-Friendly Interface</h5>
+                            <p class="card-text">Enjoy an intuitive design that makes managing your farm easy.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="py-5 text-center">
+        <div class="container">
+            <h2>Join the Community</h2>
+            <p class="lead">Start optimizing your farm today!</p>
+            <a href="{{ url_for('auth.signup') }}" class="btn btn-success btn-lg">Sign Up Now</a>
+            <a href="{{ url_for('auth.login') }}" class="btn btn-success btn-lg">Login</a>
+        </div>
+    </section>
+
+    <footer class="py-4 bg-dark text-white">
+        <div class="container text-center">
+            <p>&copy; 2024 ShambaSmart. All rights reserved.</p>
+            <p><a href="#" class="text-white">About Us</a> | <a href="/contact" class="text-white">Contact</a></p>
+        </div>
+    </footer>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.2/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>

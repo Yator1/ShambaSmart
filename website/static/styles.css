@@ -31,3 +31,15 @@ main {
     width: 100%;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
+
+.hero {
+    background-image: url('markus-winkler-HeqXGxnsnX4-unsplash.jpg'); /* Replace with your image URL */
+    background-color: rgba(255, 255, 255, 0.5);
+    background-size: cover;
+    color: rgb(0, 0, 0);
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+}

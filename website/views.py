@@ -10,6 +10,11 @@ from .utility import allowed_file
 
 views = Blueprint('views', __name__)
 
+@views.route('/landing')
+def landing():
+    if current_user.is_authenticated:
+        return redirect(url_for('views.home'))
+    return render_template('landing.html')
 
 @views.route('/', methods=['GET', 'POST'])
 @login_required

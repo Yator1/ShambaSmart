@@ -29,13 +29,13 @@ def login():
                 flash('Incorrect password, try again', category='error')
         else:
             flash('Login failed. Check your username.', category='error')
-    return render_template('login.html', farmer=current_user)
+    return render_template('login.html', farmer=current_user, farm=None)
 
 @auth.route('/logout')
 @login_required
 def logout():
     logout_user()
-    return redirect(url_for('auth.login'))
+    return redirect(url_for('views.landing'))
 
 @auth.route('/signup', methods=['GET', 'POST'])
 def signup():
