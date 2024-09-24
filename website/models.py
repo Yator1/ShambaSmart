@@ -47,13 +47,15 @@ class Crop(db.Model):
 
     def total_retail(self):
         """Calculate total sales for this crop"""
-        # Assuming you have a Sales model similar to the Expense model
-        return sum(sale.total_sale for sale in self.sales)  # Adjust based on your sales model
+        return sum(sale.total_sale for sale in self.sales)
     
     def calculate_profit(self):
         """Calculate the profit for this crop"""
         return self.total_retail() - self.total_cost()
-
+    
+    def update_quantity_harvested(self):
+        self.quantity_harvested = sum(sale.quantity_sold for sale in self.sales)
+        db.session.commit()
 
 class PlantStage(db.Model):
     id = db.Column(db.Integer, primary_key=True)

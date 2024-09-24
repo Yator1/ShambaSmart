@@ -23,7 +23,8 @@
                     <h5 class="card-title">Crops Planted</h5>
                     <p class="card-text">
                         {% for crop in crops %}
-                            {{ crop.crop_name }}{% if not loop.last %}, {% endif %}
+                            {{ crop.crop_name }}                            
+                            {% if not loop.last %}, {% endif %}
                         {% endfor %}
                     </p>
                 </div>
@@ -49,6 +50,9 @@
                 <div class="card-body">
                     <h5 class="card-title">{{ crop.crop_name }} - {{ crop.variety }}</h5>
                     <p class="card-text">Date Planted: {{ crop.date_planted }}</p>
+                    {% if crop.image %}
+                                <br><img src="{{ url_for('views.uploaded_file', filename=crop.image) }}" alt="{{ crop.crop_name }}" class="img-fluid mt-2" style="max-height: 200px;">
+                            {% endif %}
                     <a href="{{ url_for('views.crop_detail', crop_id=crop.crop_id) }}" class="btn btn-success">View Details</a>
                 </div>
             </div>

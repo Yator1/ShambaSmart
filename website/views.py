@@ -235,6 +235,10 @@ def crop_detail(crop_id):
             db.session.commit()
             flash('Sale added successfully!', 'success')
 
+            crop = Crop.query.get(crop_id)
+            crop.quantity_harvested = sum(sale.quantity_sold for sale in crop.sales)
+            db.session.commit()
+
         return redirect(url_for('views.crop_detail', crop_id=crop_id))
 
     return render_template('crop_detail.html', crop=crop, farm=farm, expenses=expenses, sales=sales, total_expenses=total_expenses, total_sales=total_sales, total_profit=total_profit)
