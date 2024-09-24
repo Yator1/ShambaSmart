@@ -1,4 +1,4 @@
-2024-09-24 15:29:02,604 - ERROR - Exception on / [GET]
+2024-09-24 17:57:05,718 - ERROR - Exception on /products [GET]
 Traceback (most recent call last):
   File "g:\TITO\VS_CODE\ShambaSmart\.venv\Lib\site-packages\flask\app.py", line 1473, in wsgi_app
     response = self.full_dispatch_request()
@@ -15,51 +15,9 @@ Traceback (most recent call last):
   File "g:\TITO\VS_CODE\ShambaSmart\.venv\Lib\site-packages\flask_login\utils.py", line 290, in decorated_view
     return current_app.ensure_sync(func)(*args, **kwargs)
            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "G:\TITO\VS_CODE\ShambaSmart\website\views.py", line 33, in home
-    return render_template("home.html", farm=farm, crops=crops, crop_count=crop_count,total_expenses=total_expenses, total_sales=total_sales, total_profit=total_profit)
-           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "g:\TITO\VS_CODE\ShambaSmart\.venv\Lib\site-packages\flask\templating.py", line 149, in render_template
-    template = app.jinja_env.get_or_select_template(template_name_or_list)
-               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "g:\TITO\VS_CODE\ShambaSmart\.venv\Lib\site-packages\jinja2\environment.py", line 1084, in get_or_select_template
-    return self.get_template(template_name_or_list, parent, globals)
-           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "g:\TITO\VS_CODE\ShambaSmart\.venv\Lib\site-packages\jinja2\environment.py", line 1013, in get_template
-    return self._load_template(name, globals)
-           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "g:\TITO\VS_CODE\ShambaSmart\.venv\Lib\site-packages\jinja2\environment.py", line 972, in _load_template
-    template = self.loader.load(self, name, self.make_globals(globals))
-               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "g:\TITO\VS_CODE\ShambaSmart\.venv\Lib\site-packages\jinja2\loaders.py", line 138, in load
-    code = environment.compile(source, name, filename)
-           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "g:\TITO\VS_CODE\ShambaSmart\.venv\Lib\site-packages\jinja2\environment.py", line 768, in compile
-    self.handle_exception(source=source_hint)
-  File "g:\TITO\VS_CODE\ShambaSmart\.venv\Lib\site-packages\jinja2\environment.py", line 939, in handle_exception
-    raise rewrite_traceback_stack(source=source)
-  File "G:\TITO\VS_CODE\ShambaSmart\website\templates\home.html", line 30, in template
-    {% endfor %}
-jinja2.exceptions.TemplateSyntaxError: Encountered unknown tag 'endfor'. You probably made a nesting mistake. Jinja is expecting this tag, but currently looking for 'elif' or 'else' or 'endif'. The innermost block that needs to be closed is 'if'.
-2024-09-24 15:33:03,874 - ERROR - Exception on / [GET]
-Traceback (most recent call last):
-  File "g:\TITO\VS_CODE\ShambaSmart\.venv\Lib\site-packages\flask\app.py", line 1473, in wsgi_app
-    response = self.full_dispatch_request()
-               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "g:\TITO\VS_CODE\ShambaSmart\.venv\Lib\site-packages\flask\app.py", line 882, in full_dispatch_request
-    rv = self.handle_user_exception(e)
-         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "g:\TITO\VS_CODE\ShambaSmart\.venv\Lib\site-packages\flask\app.py", line 880, in full_dispatch_request
-    rv = self.dispatch_request()
-         ^^^^^^^^^^^^^^^^^^^^^^^
-  File "g:\TITO\VS_CODE\ShambaSmart\.venv\Lib\site-packages\flask\app.py", line 865, in dispatch_request
-    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)  # type: ignore[no-any-return]
-           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "g:\TITO\VS_CODE\ShambaSmart\.venv\Lib\site-packages\flask_login\utils.py", line 290, in decorated_view
-    return current_app.ensure_sync(func)(*args, **kwargs)
-           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "G:\TITO\VS_CODE\ShambaSmart\website\views.py", line 33, in home
-    return render_template("home.html", farm=farm, crops=crops, crop_count=crop_count,total_expenses=total_expenses, total_sales=total_sales, total_profit=total_profit)
-           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "G:\TITO\VS_CODE\ShambaSmart\website\views.py", line 293, in products
+    return render_template('products.html', farm=farm, crops=crops)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
   File "g:\TITO\VS_CODE\ShambaSmart\.venv\Lib\site-packages\flask\templating.py", line 150, in render_template
     return _render(app, template, context)
            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -70,12 +28,12 @@ Traceback (most recent call last):
     self.environment.handle_exception()
   File "g:\TITO\VS_CODE\ShambaSmart\.venv\Lib\site-packages\jinja2\environment.py", line 939, in handle_exception
     raise rewrite_traceback_stack(source=source)
-  File "G:\TITO\VS_CODE\ShambaSmart\website\templates\home.html", line 1, in top-level template code
-    {% extends "base.html" %}
+  File "G:\TITO\VS_CODE\ShambaSmart\website\templates\products.html", line 1, in top-level template code
+    {% extends 'base.html' %}
   File "G:\TITO\VS_CODE\ShambaSmart\website\templates\base.html", line 66, in top-level template code
     {% block content %}
-  File "G:\TITO\VS_CODE\ShambaSmart\website\templates\home.html", line 28, in block 'content'
-    <br><img src="{{ url_for('instance', filename='uploads' ~ crop.image) }}" alt="{{ crop.crop_name }}" class="img-fluid mt-2">
+  File "G:\TITO\VS_CODE\ShambaSmart\website\templates\products.html", line 126, in block 'content'
+    <form method="POST" action="{{ url_for('views.add_sale') }}">
     ^^^^^^^^^^^^^^^^^^^^^^^^^
   File "g:\TITO\VS_CODE\ShambaSmart\.venv\Lib\site-packages\flask\app.py", line 1084, in url_for
     return self.handle_url_build_error(error, endpoint, values)
@@ -85,4 +43,96 @@ Traceback (most recent call last):
          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
   File "g:\TITO\VS_CODE\ShambaSmart\.venv\Lib\site-packages\werkzeug\routing\map.py", line 924, in build
     raise BuildError(endpoint, values, method, self)
-werkzeug.routing.exceptions.BuildError: Could not build url for endpoint 'instance' with values ['filename']. Did you mean 'static' instead?
+werkzeug.routing.exceptions.BuildError: Could not build url for endpoint 'views.add_sale'. Did you forget to specify values ['crop_id']?
+2024-09-24 17:57:08,736 - ERROR - Exception on /products [GET]
+Traceback (most recent call last):
+  File "g:\TITO\VS_CODE\ShambaSmart\.venv\Lib\site-packages\flask\app.py", line 1473, in wsgi_app
+    response = self.full_dispatch_request()
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "g:\TITO\VS_CODE\ShambaSmart\.venv\Lib\site-packages\flask\app.py", line 882, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "g:\TITO\VS_CODE\ShambaSmart\.venv\Lib\site-packages\flask\app.py", line 880, in full_dispatch_request
+    rv = self.dispatch_request()
+         ^^^^^^^^^^^^^^^^^^^^^^^
+  File "g:\TITO\VS_CODE\ShambaSmart\.venv\Lib\site-packages\flask\app.py", line 865, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)  # type: ignore[no-any-return]
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "g:\TITO\VS_CODE\ShambaSmart\.venv\Lib\site-packages\flask_login\utils.py", line 290, in decorated_view
+    return current_app.ensure_sync(func)(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "G:\TITO\VS_CODE\ShambaSmart\website\views.py", line 293, in products
+    return render_template('products.html', farm=farm, crops=crops)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "g:\TITO\VS_CODE\ShambaSmart\.venv\Lib\site-packages\flask\templating.py", line 150, in render_template
+    return _render(app, template, context)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "g:\TITO\VS_CODE\ShambaSmart\.venv\Lib\site-packages\flask\templating.py", line 131, in _render
+    rv = template.render(context)
+         ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "g:\TITO\VS_CODE\ShambaSmart\.venv\Lib\site-packages\jinja2\environment.py", line 1304, in render
+    self.environment.handle_exception()
+  File "g:\TITO\VS_CODE\ShambaSmart\.venv\Lib\site-packages\jinja2\environment.py", line 939, in handle_exception
+    raise rewrite_traceback_stack(source=source)
+  File "G:\TITO\VS_CODE\ShambaSmart\website\templates\products.html", line 1, in top-level template code
+    {% extends 'base.html' %}
+  File "G:\TITO\VS_CODE\ShambaSmart\website\templates\base.html", line 66, in top-level template code
+    {% block content %}
+  File "G:\TITO\VS_CODE\ShambaSmart\website\templates\products.html", line 126, in block 'content'
+    <form method="POST" action="{{ url_for('views.add_sale') }}">
+    ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "g:\TITO\VS_CODE\ShambaSmart\.venv\Lib\site-packages\flask\app.py", line 1084, in url_for
+    return self.handle_url_build_error(error, endpoint, values)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "g:\TITO\VS_CODE\ShambaSmart\.venv\Lib\site-packages\flask\app.py", line 1073, in url_for
+    rv = url_adapter.build(  # type: ignore[union-attr]
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "g:\TITO\VS_CODE\ShambaSmart\.venv\Lib\site-packages\werkzeug\routing\map.py", line 924, in build
+    raise BuildError(endpoint, values, method, self)
+werkzeug.routing.exceptions.BuildError: Could not build url for endpoint 'views.add_sale'. Did you forget to specify values ['crop_id']?
+2024-09-24 17:57:42,399 - ERROR - Exception on /products [GET]
+Traceback (most recent call last):
+  File "g:\TITO\VS_CODE\ShambaSmart\.venv\Lib\site-packages\flask\app.py", line 1473, in wsgi_app
+    response = self.full_dispatch_request()
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "g:\TITO\VS_CODE\ShambaSmart\.venv\Lib\site-packages\flask\app.py", line 882, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "g:\TITO\VS_CODE\ShambaSmart\.venv\Lib\site-packages\flask\app.py", line 880, in full_dispatch_request
+    rv = self.dispatch_request()
+         ^^^^^^^^^^^^^^^^^^^^^^^
+  File "g:\TITO\VS_CODE\ShambaSmart\.venv\Lib\site-packages\flask\app.py", line 865, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)  # type: ignore[no-any-return]
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "g:\TITO\VS_CODE\ShambaSmart\.venv\Lib\site-packages\flask_login\utils.py", line 290, in decorated_view
+    return current_app.ensure_sync(func)(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "G:\TITO\VS_CODE\ShambaSmart\website\views.py", line 293, in products
+    return render_template('products.html', farm=farm, crops=crops)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "g:\TITO\VS_CODE\ShambaSmart\.venv\Lib\site-packages\flask\templating.py", line 150, in render_template
+    return _render(app, template, context)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "g:\TITO\VS_CODE\ShambaSmart\.venv\Lib\site-packages\flask\templating.py", line 131, in _render
+    rv = template.render(context)
+         ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "g:\TITO\VS_CODE\ShambaSmart\.venv\Lib\site-packages\jinja2\environment.py", line 1304, in render
+    self.environment.handle_exception()
+  File "g:\TITO\VS_CODE\ShambaSmart\.venv\Lib\site-packages\jinja2\environment.py", line 939, in handle_exception
+    raise rewrite_traceback_stack(source=source)
+  File "G:\TITO\VS_CODE\ShambaSmart\website\templates\products.html", line 1, in top-level template code
+    {% extends 'base.html' %}
+  File "G:\TITO\VS_CODE\ShambaSmart\website\templates\base.html", line 66, in top-level template code
+    {% block content %}
+  File "G:\TITO\VS_CODE\ShambaSmart\website\templates\products.html", line 127, in block 'content'
+    <form method="POST" action="{{ url_for('views.add_sale') }}">
+    ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "g:\TITO\VS_CODE\ShambaSmart\.venv\Lib\site-packages\flask\app.py", line 1084, in url_for
+    return self.handle_url_build_error(error, endpoint, values)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "g:\TITO\VS_CODE\ShambaSmart\.venv\Lib\site-packages\flask\app.py", line 1073, in url_for
+    rv = url_adapter.build(  # type: ignore[union-attr]
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "g:\TITO\VS_CODE\ShambaSmart\.venv\Lib\site-packages\werkzeug\routing\map.py", line 924, in build
+    raise BuildError(endpoint, values, method, self)
+werkzeug.routing.exceptions.BuildError: Could not build url for endpoint 'views.add_sale'. Did you forget to specify values ['crop_id']?

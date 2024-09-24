@@ -273,7 +273,13 @@ def products():
         quantity = request.form.get('quantity')
         date_planted = request.form.get('date_planted')
 
-        new_crop = Crop(name=crop_name, variety=variety, quantity=quantity, date_planted=date_planted, farm_id=farm.id)
+        new_crop = Crop(
+            name=crop_name,
+            variety=variety, 
+            quantity=quantity, 
+            date_planted=date_planted, 
+            farm_id=farm.id
+        )
         db.session.add(new_crop)
         db.session.commit()
         flash('New crop added successfully!', category='success')

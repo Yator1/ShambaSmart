@@ -2,7 +2,7 @@
 
 {% block content %}
 <div class="container mt-4">
-    <h2>Add Crop to {{ farm.name }}</h2>
+    <h2>Add Crop {{ farm.name }}</h2>
 
     <form action="{{ url_for('views.add_crop', farm_id=farm.id) }}" method="POST" enctype="multipart/form-data" class="mt-3">
         <div class="mb-3">
