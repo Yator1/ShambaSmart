@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <title>ShambaSmart</title>
@@ -8,6 +9,7 @@
     <!-- Custom CSS -->
     <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
 </head>
+
 <body>
 
     <!-- Top Navbar -->
@@ -35,7 +37,9 @@
                     <h2 class="mb-4">{{ farm.name if farm else 'Welcome' }}</h2>
                     <ul class="nav flex-column">
                         <li class="nav-item mb-2">
-                            <a href="{{ url_for('views.home') }}" class="nav-link"><h4>Overview</h4></a>
+                            <a href="{{ url_for('views.home') }}" class="nav-link">
+                                <h4>Overview</h4>
+                            </a>
                         </li>
                         <li class="nav-item mb-2">
                             <a href="{{ url_for('views.daily_reports') }}" class="nav-link">Daily Work Reports</a>
@@ -44,7 +48,8 @@
                             <a href="{{ url_for('views.products') }}" class="nav-link">Products (Crops)</a>
                         </li>
                         <li class="nav-item mb-2">
-                            <a href="{{ url_for('views.financial_activities') }}" class="nav-link">Financial Activities</a>
+                            <a href="{{ url_for('views.financial_activities') }}" class="nav-link">Financial
+                                Activities</a>
                         </li>
                         <li class="nav-item mb-2">
                             <a href="{{ url_for('views.add_farm') }}" class="btn btn-success">Add Farm</a>
@@ -75,4 +80,5 @@
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.2/dist/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </body>
+
 </html>

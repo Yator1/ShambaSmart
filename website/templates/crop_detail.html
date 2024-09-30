@@ -5,7 +5,7 @@
     <div class="pt-3 pb-2 mb-3 border-bottom">
         <h2>{{ crop.crop_name }} Details</h2>
     </div>
-    
+
     <!-- Financial Summary -->
     <div class="row">
         <!-- Total Expense Card -->
@@ -37,66 +37,108 @@
         </div>
     </div>
 
-    <!-- Add Expense and Sale Forms -->
-    <div class="row mt-4">
-        <div class="col-md-6">
-            <h4>Add Expense</h4>
-            <form method="POST" action="{{ url_for('views.crop_detail', crop_id=crop.crop_id) }}">
-                
-                <input type="hidden" name="add_expense" value="true">
+    <button type="button" class="btn btn-success" data-toggle="modal" data-target="#addExpenseModal">
+        Add Expense
+    </button>
 
-                <div class="mb-3">
-                    <label for="expense_type" class="form-label">Expense Type</label>
-                    <select class="form-control" name="expense_type" id="expense_type" required>
-                        <option value="Seed">Seeds</option>
-                        <option value="Fertilizer">Fertilizer</option>
-                        <option value="Pesticide">Pesticide</option>
-                        <option value="Labor">Labor</option>                        
-                    </select>
+    <button type="button" class="btn btn-success" data-toggle="modal" data-target="#addSaleModal">
+        Add Sale
+    </button>
+
+
+    <!-- Add Expense Modal -->
+
+    <div class="modal fade" id="addExpenseModal" tabindex="-1" role="dialog" aria-labelledby="addExpenseModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="addCropModalLabel">Add Expense</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
                 </div>
+                <div class="modal-body">
+                    <form method="POST" action="{{ url_for('views.crop_detail', crop_id=crop.crop_id) }}">
 
-                <div class="mb-3">
-                    <label for="cost" class="form-label">Cost (KES)</label>
-                    <input type="number" class="form-control" id="cost" name="cost" required placeholder="Enter Amount">
+                        <input type="hidden" name="add_expense" value="true">
+
+                        <div class="mb-3">
+                            <label for="expense_type" class="form-label">Expense Type</label>
+                            <select class="form-control" name="expense_type" id="expense_type" required>
+                                <option value="Seed">Seeds</option>
+                                <option value="Fertilizer">Fertilizer</option>
+                                <option value="Pesticide">Pesticide</option>
+                                <option value="Labor">Labor</option>
+                            </select>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="cost" class="form-label">Cost (KES)</label>
+                            <input type="number" class="form-control" id="cost" name="cost" required
+                                placeholder="Enter Amount">
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="stage" class="form-label">Crop Stage</label>
+                            <input type="text" class="form-control" id="stage" name="stage"
+                                placeholder="i.e Planting, Harvesting">
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="date_incurred" class="form-label">Date Incurred</label>
+                            <input type="date" class="form-control" id="date_incurred" name="date_incurred" required>
+                        </div>
+
+                        <div class="modal-footer">
+                            <button type="submit" class="btn btn-success">Add Expense</button>
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                        </div>
+                    </form>
                 </div>
-
-                <div class="mb-3">
-                    <label for="stage" class="form-label">Crop Stage</label>
-                    <input type="text" class="form-control" id="stage" name="stage" placeholder="i.e Planting, Harvesting">
-                </div>
-
-                <div class="mb-3">
-                    <label for="date_incurred" class="form-label">Date Incurred</label>
-                    <input type="date" class="form-control" id="date_incurred" name="date_incurred" required>
-                </div>
-
-                <button type="submit" class="btn btn-success">Add Expense</button>
-            </form>
+            </div>
         </div>
+    </div>
 
-        <div class="col-md-6">
-            <h4>Add Sale</h4>
-            <form method="POST" action="{{ url_for('views.crop_detail', crop_id=crop.crop_id) }}">
-                
-                <input type="hidden" name="add_sale" value="true">
-
-                <div class="mb-3">
-                    <label for="amount_sold" class="form-label">Amount Sold (kg)</label>
-                    <input type="number" step="0.01" class="form-control" id="amount_sold" name="amount_sold" required>
+    <!-- Add Sales Modal -->
+    <div class="modal fade" id="addSaleModal" tabindex="-1" role="dialog" aria-labelledby="addSaleModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="addCropModalLabel">Add Sale</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
                 </div>
+                <div class="modal-body">
+                    <form method="POST" action="{{ url_for('views.crop_detail', crop_id=crop.crop_id) }}">
 
-                <div class="mb-3">
-                    <label for="revenue" class="form-label">Price per KG (KES)</label>
-                    <input type="number" step="0.01" class="form-control" id="price" name="price" required>
+                        <input type="hidden" name="add_sale" value="true">
+
+                        <div class="mb-3">
+                            <label for="amount_sold" class="form-label">Amount Sold (kg)</label>
+                            <input type="number" step="0.01" class="form-control" id="amount_sold" name="amount_sold"
+                                required>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="revenue" class="form-label">Price per KG (KES)</label>
+                            <input type="number" step="0.01" class="form-control" id="price" name="price" required>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="date_of_sale" class="form-label">Date of Sale</label>
+                            <input type="date" class="form-control" id="date_of_sale" name="date_of_sale" required>
+                        </div>
+
+                        <div class="modal-footer">
+                            <button type="submit" class="btn btn-success">Add Sale</button>
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                        </div>
+                    </form>
                 </div>
-
-                <div class="mb-3">
-                    <label for="date_of_sale" class="form-label">Date of Sale</label>
-                    <input type="date" class="form-control" id="date_of_sale" name="date_of_sale" required>
-                </div>
-
-                <button type="submit" class="btn btn-success">Add Sale</button>
-            </form>
+            </div>
         </div>
     </div>
 
