@@ -1,4 +1,6 @@
 # Virtual environment
 .venv
 app.log
-__pycache__
+website\__pycache__
+D:\Web_design\ShambaSmart\__pycache__
+D:\Web_design\ShambaSmart\website\__pycache__
