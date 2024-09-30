@@ -235,6 +235,10 @@ def crop_detail(crop_id):
             db.session.commit()
             flash('Sale added successfully!', 'success')
 
+            crop = Crop.query.get(crop_id)
+            crop.quantity_harvested = sum(sale.quantity_sold for sale in crop.sales)
+            db.session.commit()
+
         return redirect(url_for('views.crop_detail', crop_id=crop_id))
 
     return render_template('crop_detail.html', crop=crop, farm=farm, expenses=expenses, sales=sales, total_expenses=total_expenses, total_sales=total_sales, total_profit=total_profit)
@@ -269,7 +273,13 @@ def products():
         quantity = request.form.get('quantity')
         date_planted = request.form.get('date_planted')
 
-        new_crop = Crop(name=crop_name, variety=variety, quantity=quantity, date_planted=date_planted, farm_id=farm.id)
+        new_crop = Crop(
+            name=crop_name,
+            variety=variety, 
+            quantity=quantity, 
+            date_planted=date_planted, 
+            farm_id=farm.id
+        )
         db.session.add(new_crop)
         db.session.commit()
         flash('New crop added successfully!', category='success')

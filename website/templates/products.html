@@ -14,10 +14,11 @@
                 <tr>
                     <th>Crop Name</th>
                     <th>Variety</th>
+                    <th>Quantity Planted</th>
                     <th>Quantity Harvested</th>
                     <th>Total Sales</th>
                     <th>Total Expenses</th>
-                    <th>Profit</th>
+                    <th>Profit</th>        
                 </tr>
             </thead>
             <tbody>
@@ -25,6 +26,7 @@
                     <tr>
                         <td>{{ crop.crop_name }}</td>
                         <td>{{ crop.variety }}</td>
+                        <td>{{ crop.quantity }}</td>
                         <td>{{ crop.quantity_harvested }}</td>
                         <td>{{ crop.total_sales }}</td>
                         <td>{{ crop.total_expenses }}</td>
